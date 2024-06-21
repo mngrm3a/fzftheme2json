@@ -1,0 +1,10 @@
+cradle:
+  cabal:
+    - path: "src"
+      component: "lib:fzftheme"
+
+    - path: "app/Main.hs"
+      component: "fzftheme:exe:fzftheme-exe"
+
+    - path: "test"
+      component: "fzftheme:test:fzftheme-test"
