@@ -1,6 +1,12 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Parser (module Text.Parsec, Option (..), parseOptions) where
+module Parser
+  ( module Text.Parsec,
+    Option (..),
+    parseOptionsSkipFirstLine,
+    parseOptions,
+  )
+where
 
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -9,6 +15,11 @@ import Text.Parsec (ParseError, Parsec)
 import qualified Text.Parsec as P
 
 type Parser = Parsec Text ()
+
+parseOptionsSkipFirstLine :: Text -> Either ParseError [Option]
+parseOptionsSkipFirstLine = P.runParser (go >> options) () "<stdin>"
+  where
+    go = P.manyTill P.anyChar P.endOfLine
 
 parseOptions :: Text -> Either ParseError [Option]
 parseOptions = P.runParser options () "<stdin>"
