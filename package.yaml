@@ -20,6 +20,10 @@ description:         Please see the README on GitHub at <https://github.com/mngr
 
 dependencies:
 - base >= 4.7 && < 5
+- bytestring
+- text
+- parsec
+- aeson
 
 ghc-options:
 - -Wall
