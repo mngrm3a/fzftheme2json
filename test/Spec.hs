@@ -6,7 +6,7 @@ import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Encoding as T
 import qualified Data.Text.IO as T
-import Parser (parseOptionsSkipFirstLine)
+import Parser (parseOptions)
 import Paths_fzftheme (getDataDir, getDataFileName)
 import System.FilePath ((<.>))
 import System.FilePath.Posix ((</>))
@@ -23,20 +23,20 @@ spec = around withTestEnv $ do
   describe "parseOptionsSkipFirstLine" $
     it "parses all options after skipping the first line" $
       \(Env input goldenText) -> do
-        let result = parseOptionsSkipFirstLine input
+        let result = parseOptions input
         goldenText "parseOptionsSkipFirstLine" $ eitherShowWith showText result
 
   describe "themeFromOptions" $
     it "converts a list of options to a theme" $
       \(Env input goldenText) -> do
-        let result = parseOptionsSkipFirstLine input >>= Right . themeFromOptions
+        let result = parseOptions input >>= Right . themeFromOptions
         goldenText "themeFromOptions" $ eitherShowWith showText result
 
   describe "encode" $
     it "encodes the expected json structure" $
       \(Env input goldenText) -> do
         let result =
-              parseOptionsSkipFirstLine input
+              parseOptions input
                 >>= Right
                   . T.decodeUtf8
                   . BS.toStrict

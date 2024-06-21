@@ -1,25 +1,25 @@
 module Parser
   ( module Text.Parsec,
     Option (..),
-    parseOptionsSkipFirstLine,
     parseOptions,
   )
 where
 
+import Data.Functor (void)
 import Data.Text (Text)
 import qualified Data.Text as T
-import Text.Parsec (ParseError, Parsec)
+import Text.Parsec (ParseError, Parsec, (<|>))
 import qualified Text.Parsec as P
 
 type Parser = Parsec Text ()
 
-parseOptionsSkipFirstLine :: Text -> Either ParseError [Option]
-parseOptionsSkipFirstLine = P.runParser (go >> options) () "<stdin>"
-  where
-    go = P.manyTill P.anyChar P.endOfLine
-
 parseOptions :: Text -> Either ParseError [Option]
-parseOptions = P.runParser options () "<stdin>"
+parseOptions =
+  P.runParser ((skipExportAssignment *> options) <|> options) () "<stdin>"
+  where
+    skipExportAssignment =
+      void $
+        P.spaces *> P.string "export" *> P.manyTill P.anyChar P.endOfLine
 
 data Option
   = Color ![(Text, Text)]
