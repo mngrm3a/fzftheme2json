@@ -20,6 +20,7 @@ description:         Please see the README on GitHub at <https://github.com/mngr
 
 dependencies:
 - base >= 4.7 && < 5
+- filepath
 - bytestring
 - text
 - parsec
@@ -35,6 +36,8 @@ ghc-options:
 - -Wmissing-home-modules
 - -Wpartial-fields
 - -Wredundant-constraints
+
+data-dir:            data
 
 library:
   source-dirs: src
@@ -60,3 +63,5 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - fzftheme
+    - hspec
+    - hspec-golden

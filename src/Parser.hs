@@ -1,5 +1,3 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 module Parser
   ( module Text.Parsec,
     Option (..),
@@ -10,7 +8,6 @@ where
 
 import Data.Text (Text)
 import qualified Data.Text as T
-import GHC.Generics (Generic)
 import Text.Parsec (ParseError, Parsec)
 import qualified Text.Parsec as P
 
@@ -27,7 +24,7 @@ parseOptions = P.runParser options () "<stdin>"
 data Option
   = Color ![(Text, Text)]
   | Quoted !Text !Text
-  deriving (Eq, Generic, Show)
+  deriving (Eq, Show)
 
 options :: Parser [Option]
 options = P.many1 $ do
